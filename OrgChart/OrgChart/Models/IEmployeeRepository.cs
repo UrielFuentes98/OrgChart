@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace OrgChart.Models
 {
-    interface IEmployeeRepository
+    public interface IEmployeeRepository
     {
         IEnumerable<Employee> GetSubordinates(int managerId);
 
