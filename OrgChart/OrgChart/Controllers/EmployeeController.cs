@@ -49,16 +49,16 @@ namespace OrgChart.Controllers
             return View(employee);
         }
 
-        public IActionResult Edit(int empId)
+        public IActionResult Edit(int empId, bool isEdit)
         {
-            if (empId > 0)
+            if (isEdit)
             {
                 var employee = employeeRepository.GetEmployeeInfo(empId);
                 return View(employee);
             }
             else
             {
-                var employee = new Employee();
+                var employee = new Employee() { ManagerId = empId };
                 return View(employee);
             }
         }
@@ -67,7 +67,14 @@ namespace OrgChart.Controllers
         public IActionResult Edit(Employee employee)
         {
             var actualEmployee = employeeRepository.GetEmployeeInfo(employee.EmployeeId);
-            employeeRepository.UpdateEmployee(employee);
+            if (actualEmployee != null)
+            {
+                employeeRepository.UpdateEmployee(employee);
+            }
+            else
+            {
+                employeeRepository.AddEmployee(employee);
+            }
             return RedirectToAction("Chart");
         }
 

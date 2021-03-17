@@ -3,7 +3,7 @@
 <div class="col-3 mb-3">
     <div class="card pt-2">
         <img src="https://via.placeholder.com/150" class="card-image" alt="executive">
-        <div class="card-body">
+        <div class="card-body pb-1">
             <h5 class="card-title">@Model.FirstName @Model.LastName</h5>
             <p class="card-entry">@Model.Position</p>
             <p class="card-entry">@Model.Office</p>
@@ -16,10 +16,19 @@
             <a class="icon-link"
                asp-controller="Employee"
                asp-action="Edit"
-               asp-route-empId="@Model.EmployeeId">
+               asp-route-empId="@Model.EmployeeId"
+               asp-route-isEdit="true">
                 <i class="far fa-edit"></i>
             </a>
-            <a class="icon-link"><i class="fas fa-plus-circle"></i></a>
+            <div class="text-center mt-1">
+                <a class="icon-link" 
+                   asp-controller="Employee"
+                   asp-action="Edit"
+                   asp-route-empId="@Model.EmployeeId"
+                   asp-route-isEdit="false">
+                    <i class="fas fa-plus-circle"></i>
+                </a>
+            </div>
         </div>
     </div>
 </div>
