@@ -1,11 +1,20 @@
 ﻿@model Employee
 
-    <div class="col-3 mb-3">
-        <div class="card">
-            <img src="~/img/executive.jpg" class="card-image" alt="executive">
-            <div class="card-body">
-                <h5 class="card-title">@Model.FirstName @Model.LastName</h5>
-                <p class="card-text">@Model.Office</p>
-            </div>
+<div class="col-3 mb-3">
+    <div class="card pt-2">
+        <img src="https://via.placeholder.com/150" class="card-image" alt="executive">
+        <div class="card-body">
+            <h5 class="card-title">@Model.FirstName @Model.LastName</h5>
+            <p class="card-entry">@Model.Position</p>
+            <p class="card-entry">@Model.Office</p>
+            <a class="icon-link"
+               asp-controller="Employee"
+               asp-action="Detail"
+               asp-route-empId="@Model.EmployeeId">
+                <i class="fas fa-search-plus"></i>
+            </a>
+            <a class="icon-link"><i class="far fa-edit"></i></a>
+            <a class="icon-link"><i class="fas fa-plus-circle"></i></a>
         </div>
     </div>
+</div>

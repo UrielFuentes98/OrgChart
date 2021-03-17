@@ -12,34 +12,41 @@ namespace OrgChart.Controllers
 {
     public class EmployeeController : Controller
     {
-        //private readonly ILogger<EmployeeController> _logger;
+        private readonly ILogger<EmployeeController> _logger;
         private readonly IEmployeeRepository employeeRepository;
 
         public EmployeeController(ILogger<EmployeeController> logger, IEmployeeRepository employeeRepository)
         {
-            //_logger = logger;
+            _logger = logger;
             this.employeeRepository = employeeRepository;
         }
 
-        public IActionResult Chart(int id)
+        public IActionResult Chart(int empId)
         {
             IEnumerable<Employee> employeesGroup;
             Employee manager;
 
-            if (id == 0) 
+            if (empId == 0)
             {
                 employeesGroup = employeeRepository.GetSubordinates(1);
                 manager = employeeRepository.GetEmployeeInfo(1);
-            } 
+            }
             else
             {
-                employeesGroup = employeeRepository.GetSubordinates(id);
-                manager = employeeRepository.GetEmployeeInfo(id);
+                employeesGroup = employeeRepository.GetSubordinates(empId);
+                manager = employeeRepository.GetEmployeeInfo(empId);
             }
 
-            var employeesView = new ChartList(employeesGroup, manager); 
+            var employeesView = new ChartList(employeesGroup, manager);
 
             return View(employeesView);
+        }
+
+        public IActionResult Detail(int empId)
+        {
+            var employee = employeeRepository.GetEmployeeInfo(empId);
+
+            return View(employee);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
