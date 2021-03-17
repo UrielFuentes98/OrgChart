@@ -49,6 +49,28 @@ namespace OrgChart.Controllers
             return View(employee);
         }
 
+        public IActionResult Edit(int empId)
+        {
+            if (empId > 0)
+            {
+                var employee = employeeRepository.GetEmployeeInfo(empId);
+                return View(employee);
+            }
+            else
+            {
+                var employee = new Employee();
+                return View(employee);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Employee employee)
+        {
+            var actualEmployee = employeeRepository.GetEmployeeInfo(employee.EmployeeId);
+            employeeRepository.UpdateEmployee(employee);
+            return RedirectToAction("Chart");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

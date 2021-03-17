@@ -10,5 +10,9 @@ namespace OrgChart.Models
         IEnumerable<Employee> GetSubordinates(int managerId);
 
         Employee GetEmployeeInfo(int employeeId);
+
+        void AddEmployee(Employee employee);
+
+        void UpdateEmployee(Employee employee);
     }
 }
