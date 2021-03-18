@@ -1,5 +1,13 @@
-﻿<div class="row">
+﻿@model int
+
+<div class="row">
     <div class="col-4">
         <div class="alert alert-danger">Employee deleted.</div>
+        <a class="btn btn-link"
+           asp-controller="Employee"
+           asp-action="Chart"
+           asp-route-empId="@Model">
+            Back To Chart
+        </a>
     </div> 
 </div>

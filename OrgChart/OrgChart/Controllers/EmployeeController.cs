@@ -113,7 +113,7 @@ namespace OrgChart.Controllers
         {
             var empToDelete = employeeRepository.GetEmployeeInfo(empId);
             employeeRepository.DeleteEmployee(empToDelete);
-            return View("Delete/DeleteConfirmation");
+            return View("Delete/DeleteConfirmation", empToDelete.ManagerId);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
