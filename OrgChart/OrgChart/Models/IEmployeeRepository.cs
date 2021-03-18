@@ -14,5 +14,7 @@ namespace OrgChart.Models
         void AddEmployee(Employee employee);
 
         void UpdateEmployee(Employee employee);
+
+        void DeleteEmployee(Employee employee);
     }
 }

@@ -21,6 +21,12 @@ namespace OrgChart.Models
             db.SaveChanges();
         }
 
+        public void DeleteEmployee(Employee employee)
+        {
+            db.Employees.Remove(employee);
+            db.SaveChanges();
+        }
+
         public Employee GetEmployeeInfo(int employeeId)
         {
             return db.Employees.AsNoTracking().SingleOrDefault(e => e.EmployeeId == employeeId);

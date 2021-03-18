@@ -78,7 +78,20 @@ namespace OrgChart.Controllers
             return RedirectToAction("Chart");
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult DeletePreview (int empId)
+        {
+            var empToDelete = employeeRepository.GetEmployeeInfo(empId);
+            return View(empToDelete);
+        }
+
+        public IActionResult DeleteConfirmation(int empId)
+        {
+            var empToDelete = employeeRepository.GetEmployeeInfo(empId);
+            employeeRepository.DeleteEmployee(empToDelete);
+            return View();
+        }
+
+            [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

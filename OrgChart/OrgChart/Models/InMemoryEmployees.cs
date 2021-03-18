@@ -25,6 +25,11 @@ namespace OrgChart.Models
             throw new NotImplementedException();
         }
 
+        public void DeleteEmployee(Employee employee)
+        {
+            throw new NotImplementedException();
+        }
+
         public Employee GetEmployeeInfo(int employeeId)
         {
             return employees.SingleOrDefault(e => e.EmployeeId == employeeId);

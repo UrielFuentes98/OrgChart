@@ -19,9 +19,15 @@
                asp-route-empId="@Model.EmployeeId"
                asp-route-isEdit="true">
                 <i class="far fa-edit"></i>
+            </a> 
+            <a class="icon-link"
+               asp-controller="Employee"
+               asp-action="DeletePreview"
+               asp-route-empId="@Model.EmployeeId">
+               <i class="fas fa-trash"></i>
             </a>
             <div class="text-center mt-1">
-                <a class="icon-link" 
+                <a class="icon-link"
                    asp-controller="Employee"
                    asp-action="Edit"
                    asp-route-empId="@Model.EmployeeId"
