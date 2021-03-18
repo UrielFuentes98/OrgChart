@@ -17,3 +17,8 @@
 .icon-link:hover {
     text-decoration: none;
 }
+
+.name-link, .name-link:hover {
+    color: black;
+}
+

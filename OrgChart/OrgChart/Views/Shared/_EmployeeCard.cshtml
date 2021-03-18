@@ -4,7 +4,12 @@
     <div class="card pt-2">
         <img src="https://via.placeholder.com/150" class="card-image" alt="executive">
         <div class="card-body pb-1">
-            <h5 class="card-title">@Model.FirstName @Model.LastName</h5>
+            <a class="name-link"
+               asp-controller="Employee"
+               asp-action="Chart"
+               asp-route-empId="@Model.EmployeeId">
+                <h5 class="card-title">@Model.FirstName @Model.LastName</h5>
+            </a>
             <p class="card-entry">@Model.Position</p>
             <p class="card-entry">@Model.Office</p>
             <a class="icon-link" title="Detail"

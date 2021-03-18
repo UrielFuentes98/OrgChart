@@ -81,12 +81,14 @@ namespace OrgChart.Controllers
             if (actualEmployee != null)
             {
                 employeeRepository.UpdateEmployee(employee);
+                return RedirectToAction("Chart", employee.EmployeeId);
             }
             else
             {
                 employeeRepository.AddEmployee(employee);
+                return RedirectToAction("Chart", employee.ManagerId);
             }
-            return RedirectToAction("Chart");
+            
         }
 
         public IActionResult DeletePreview(int empId)
