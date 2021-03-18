@@ -40,6 +40,11 @@ namespace OrgChart.Models
             return employees.Where(e => e.ManagerId == managerId).OrderBy(e => e.LastName);
         }
 
+        public bool HasSubordiantes(int employeeId)
+        {
+            throw new NotImplementedException();
+        }
+
         public void UpdateEmployee(Employee employee)
         {
             throw new NotImplementedException();

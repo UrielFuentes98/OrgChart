@@ -16,5 +16,7 @@ namespace OrgChart.Models
         void UpdateEmployee(Employee employee);
 
         void DeleteEmployee(Employee employee);
+
+        bool HasSubordiantes(int employeeId);
     }
 }

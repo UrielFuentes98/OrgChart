@@ -37,6 +37,20 @@ namespace OrgChart.Models
             return db.Employees.Where(e => e.ManagerId == managerId).OrderBy(e => e.LastName);
         }
 
+        public bool HasSubordiantes(int employeeId)
+        {
+            var subordinate = db.Employees.FirstOrDefault(e => e.EmployeeId == employeeId);
+
+            if (subordinate != null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         public void UpdateEmployee(Employee employee)
         {
             db.Employees.Update(employee);

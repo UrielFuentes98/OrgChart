@@ -26,6 +26,7 @@ namespace OrgChart.Controllers
             IEnumerable<Employee> employeesGroup;
             Employee manager;
 
+            //If no id provided default to first employee added
             if (empId == 0)
             {
                 employeesGroup = employeeRepository.GetSubordinates(1);
@@ -51,6 +52,8 @@ namespace OrgChart.Controllers
 
         public IActionResult Edit(int empId, bool isEdit)
         {
+            //If edit mode, bind employe of id passed else create
+            //employee with boss with passed id
             if (isEdit)
             {
                 var employee = employeeRepository.GetEmployeeInfo(empId);
@@ -66,6 +69,7 @@ namespace OrgChart.Controllers
         [HttpPost]
         public IActionResult Edit(Employee employee)
         {
+            //Check if employee with givel id is in DB. If so update, else add.
             var actualEmployee = employeeRepository.GetEmployeeInfo(employee.EmployeeId);
             if (actualEmployee != null)
             {
@@ -80,8 +84,21 @@ namespace OrgChart.Controllers
 
         public IActionResult DeletePreview (int empId)
         {
-            var empToDelete = employeeRepository.GetEmployeeInfo(empId);
-            return View(empToDelete);
+            //If employee has subordinates cant be deleted because
+            //it would broke the org employee tree.
+
+            var empHasSub = employeeRepository.HasSubordiantes(empId);
+
+            if (empHasSub)
+            {
+                var empToDelete = employeeRepository.GetEmployeeInfo(empId);
+                return View("Delete/DeletePreview",empToDelete);
+            }
+            else
+            {
+                return View("Delete/CantDelete");
+            }
+            
         }
 
         public IActionResult DeleteConfirmation(int empId)
