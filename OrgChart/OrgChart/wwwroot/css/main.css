@@ -14,7 +14,7 @@
     margin-right: 7px;
 }
 
-.icon-link:hover {
+.icon-link:hover, .arrow-link:hover {
     text-decoration: none;
 }
 

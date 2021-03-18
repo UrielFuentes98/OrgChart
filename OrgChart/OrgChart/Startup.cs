@@ -57,7 +57,7 @@ namespace OrgChart
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Employee}/{action=Chart}/{id?}");
+                    pattern: "{controller=Diagram}/{action=Chart}/{id?}");
             });
         }
     }
