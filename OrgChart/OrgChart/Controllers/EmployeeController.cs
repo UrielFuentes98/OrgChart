@@ -59,6 +59,7 @@ namespace OrgChart.Controllers
 
         public IActionResult Edit(int empId, bool isEdit)
         {
+            
             //If edit mode, bind employe of id passed else create
             //employee with boss with passed id
             if (isEdit)
@@ -76,6 +77,10 @@ namespace OrgChart.Controllers
         [HttpPost]
         public IActionResult Edit(Employee employee)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
             //Check if employee with givel id is in DB. If so update, else add.
             var actualEmployee = employeeRepository.GetEmployeeInfo(employee.EmployeeId);
             if (actualEmployee != null)
