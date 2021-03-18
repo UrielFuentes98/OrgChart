@@ -27,6 +27,11 @@ namespace OrgChart.Models
             db.SaveChanges();
         }
 
+        public IEnumerable<Employee> GetAllEmployees()
+        {
+            return db.Employees;
+        }
+
         public Employee GetEmployeeInfo(int employeeId)
         {
             return db.Employees.AsNoTracking().SingleOrDefault(e => e.EmployeeId == employeeId);
@@ -39,15 +44,15 @@ namespace OrgChart.Models
 
         public bool HasSubordiantes(int employeeId)
         {
-            var subordinate = db.Employees.FirstOrDefault(e => e.EmployeeId == employeeId);
+            var subordinate = db.Employees.FirstOrDefault(e => e.ManagerId == employeeId);
 
             if (subordinate != null)
             {
-                return false;
+                return true;
             }
             else
             {
-                return true;
+                return false;
             }
         }
 

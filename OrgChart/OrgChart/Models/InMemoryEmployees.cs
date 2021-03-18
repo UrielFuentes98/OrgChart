@@ -30,6 +30,11 @@ namespace OrgChart.Models
             throw new NotImplementedException();
         }
 
+        public IEnumerable<Employee> GetAllEmployees()
+        {
+            throw new NotImplementedException();
+        }
+
         public Employee GetEmployeeInfo(int employeeId)
         {
             return employees.SingleOrDefault(e => e.EmployeeId == employeeId);

@@ -21,6 +21,13 @@ namespace OrgChart.Controllers
             this.employeeRepository = employeeRepository;
         }
 
+        public IActionResult List()
+        {
+            var allEmployees = employeeRepository.GetAllEmployees();
+
+            return View(allEmployees);
+        }
+
         public IActionResult Chart(int empId)
         {
             IEnumerable<Employee> employeesGroup;
@@ -82,7 +89,7 @@ namespace OrgChart.Controllers
             return RedirectToAction("Chart");
         }
 
-        public IActionResult DeletePreview (int empId)
+        public IActionResult DeletePreview(int empId)
         {
             //If employee has subordinates cant be deleted because
             //it would broke the org employee tree.
@@ -91,24 +98,25 @@ namespace OrgChart.Controllers
 
             if (empHasSub)
             {
-                var empToDelete = employeeRepository.GetEmployeeInfo(empId);
-                return View("Delete/DeletePreview",empToDelete);
+                return View("Delete/CantDelete");
+
             }
             else
             {
-                return View("Delete/CantDelete");
+                var empToDelete = employeeRepository.GetEmployeeInfo(empId);
+                return View("Delete/DeletePreview", empToDelete);
             }
-            
+
         }
 
         public IActionResult DeleteConfirmation(int empId)
         {
             var empToDelete = employeeRepository.GetEmployeeInfo(empId);
             employeeRepository.DeleteEmployee(empToDelete);
-            return View();
+            return View("Delete/DeleteConfirmation");
         }
 
-            [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
