@@ -19,5 +19,7 @@ namespace OrgChart.Models
         void DeleteEmployee(Employee employee);
 
         bool HasSubordiantes(int employeeId);
+
+        IEnumerable<Employee> GetEmployeesByName(string inputName);
     }
 }

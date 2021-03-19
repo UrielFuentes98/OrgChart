@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace OrgChart.Models
@@ -30,6 +31,30 @@ namespace OrgChart.Models
         public IEnumerable<Employee> GetAllEmployees()
         {
             return db.Employees;
+        }
+
+        //Search if input string is in the first name or last name. 
+        public IEnumerable<Employee> GetEmployeesByName(string inputName)
+        {
+            
+            //Check for input in first name
+            var empByFirstName = db.Employees.AsNoTracking().Where(e => e.FirstName.StartsWith(inputName));
+            if (!empByFirstName.Any())
+            {
+                //Check for input in last name
+                var empByLastName = db.Employees.AsNoTracking().Where(e => e.LastName.StartsWith(inputName));
+
+                if (!empByLastName.Any())
+                {
+                    //Check for input in both first and last name
+                    var inputNoSpaces = Regex.Replace(inputName, @"\s+", "");
+                    var empByFullName = db.Employees.ToList().Where(e => Regex.Replace(e.FirstName + e.LastName, @"\s+", "").StartsWith( inputNoSpaces));
+                    return empByFullName;
+                }
+                return empByLastName;
+            }
+            var x = empByFirstName.First();
+            return empByFirstName;
         }
 
         public Employee GetEmployeeInfo(int employeeId)

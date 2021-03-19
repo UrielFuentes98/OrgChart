@@ -16,11 +16,19 @@ namespace OrgChart.Controllers
         {
             this.employeeRepository = employeeRepository;
         }
-        public IActionResult List()
+        public IActionResult List(IEnumerable<Employee> employees)
         {
-            var allEmployees = employeeRepository.GetAllEmployees();
+            if (!employees.Any())
+            {
+                var allEmployees = employeeRepository.GetAllEmployees();
+                return View(allEmployees);
+            }
+            else
+            {
+                return View(employees);
+            }
 
-            return View(allEmployees);
+            
         }
 
         public IActionResult Chart(int empId)
@@ -43,6 +51,29 @@ namespace OrgChart.Controllers
             var employeesView = new ChartList(employeesGroup, manager);
 
             return View(employeesView);
+        }
+
+        public IActionResult SearchEmployee(string empName)
+        {
+            var employeesFound = employeeRepository.GetEmployeesByName(empName);
+
+            if (employeesFound.Any())
+            {
+                if (employeesFound.Count() > 1)
+                {
+                    return View("List", employeesFound);
+                }
+                else
+                {
+                    return RedirectToAction("Detail", "Employee", new { empId = employeesFound.First().EmployeeId });
+                }
+                
+            }
+            else
+            {
+                ViewBag.Message = "Sorry. No Employee was Found.";
+                return View("_ErrorMessage");
+            }
         }
     }
 }

@@ -105,7 +105,8 @@ namespace OrgChart.Controllers
 
             if (empHasSub)
             {
-                return View("Delete/CantDelete");
+                ViewBag.Message = "Sorry employee has subordinates so cannot be deleted.";
+                return View("_ErrorMessage");
 
             }
             else
