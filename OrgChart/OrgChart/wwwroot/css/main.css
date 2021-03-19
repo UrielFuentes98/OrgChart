@@ -22,4 +22,8 @@
     color: black;
 }
 
+.nav-divider {
+    border-left: 1px solid grey;
+}
+
 
