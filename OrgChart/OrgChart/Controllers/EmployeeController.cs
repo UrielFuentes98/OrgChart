@@ -21,6 +21,7 @@ namespace OrgChart.Controllers
             this.employeeRepository = employeeRepository;
         }
 
+        //TO DO - Check how to delete functions
         public IActionResult List()
         {
             var allEmployees = employeeRepository.GetAllEmployees();

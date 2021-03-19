@@ -31,6 +31,7 @@ namespace OrgChart
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddControllersWithViews();
             services.AddRazorPages();
 

@@ -1,0 +1,14 @@
+﻿@model IEnumerable<Company>
+
+<div class="row">
+    @foreach (var company in Model)
+    {
+        <partial name="_CompanyCard" model="company" />
+    }
+</div>
+<a asp-controller="Company"
+   asp-action="Edit"
+   asp-route-isEdit="false"
+   class="btn btn-primary">
+    Create Company.
+</a>

@@ -41,5 +41,9 @@ namespace OrgChart.Models
         public string Office { get; set; }
 
         public int ManagerId { get; set; }
+
+        public int CompanyId { get; set; }
+
+        public Company Company { get; set; }
     }
 }

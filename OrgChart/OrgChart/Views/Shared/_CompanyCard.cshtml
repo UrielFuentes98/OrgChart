@@ -1,0 +1,18 @@
+﻿@model Company
+
+    <div class="col-lg-4 col-sm-6 mb-3">
+        <div class="card pt-2">
+            <div class="card-body pb-1">
+                <h5 class="card-title">@Model.Name</h5>
+                <p class="card-entry">@Model.Address</p>
+                <a class="icon-link" title="Edit"
+                   asp-controller="Company"
+                   asp-action="Edit"
+                   asp-route-compId="@Model.CompanyId"
+                   asp-route-isEdit="true">
+                    <i class="far fa-edit"></i>
+                </a>
+                <a>Select</a>
+            </div>
+        </div>
+    </div>
