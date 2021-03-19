@@ -27,6 +27,7 @@ namespace OrgChart.Models
 
         [Required(ErrorMessage = "Please enter a email")]
         [Display(Name = "Email")]
+        [DataType(DataType.EmailAddress)]
         [StringLength(30)]
         public string Email { get; set; }
 

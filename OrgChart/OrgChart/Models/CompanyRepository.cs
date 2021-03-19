@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,9 +20,10 @@ namespace OrgChart.Models
             db.SaveChanges();
         }
 
-        public IEnumerable<Company> GetCompanies()
+
+        public IEnumerable<Company> GetCompaniesOfUser(string userName)
         {
-            return db.Companies;
+            return db.Companies.Where(c => c.OwnerName == userName);
         }
 
         public Company GetCompanyById(int compId)

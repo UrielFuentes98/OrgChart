@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrgChart.Areas.Identity.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,6 +9,7 @@ namespace OrgChart.Models
 {
     public class Company
     {
+        public string OwnerName { get; set; }
         public int CompanyId { get; set; }
 
         [Required(ErrorMessage = "Please enter a name")]
@@ -21,5 +23,6 @@ namespace OrgChart.Models
         public string Address { get; set; }
 
         public List<Employee> Employees { get; set; }
+
     }
 }

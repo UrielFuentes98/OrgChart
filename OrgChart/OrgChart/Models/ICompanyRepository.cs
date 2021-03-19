@@ -7,7 +7,7 @@ namespace OrgChart.Models
 {
     public interface ICompanyRepository 
     {
-        IEnumerable<Company> GetCompanies();
+        IEnumerable<Company> GetCompaniesOfUser(string userName);
         void CreateComapany(Company company);
 
         void UpdateCompany(Company company);

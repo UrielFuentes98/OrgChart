@@ -18,8 +18,8 @@ namespace OrgChart.Controllers
 
         public IActionResult List()
         {
-            var companies = companyRepository.GetCompanies();
-            return View(companies);
+            var UserCompanies = companyRepository.GetCompaniesOfUser(User.Identity.Name);
+            return View(UserCompanies);
         }
 
         public IActionResult Edit(int compId, bool isEdit)
@@ -53,6 +53,8 @@ namespace OrgChart.Controllers
             }
             else
             {
+                var userName = User.Identity.Name;
+                company.OwnerName = userName;
                 companyRepository.CreateComapany(company);
             }
             return RedirectToAction("List");

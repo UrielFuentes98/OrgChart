@@ -1,9 +1,12 @@
-﻿@model Company 
+﻿@model Company
+
+@Html.HiddenFor(m => m.Employees)
 
 <div class="row">
     <div class="col-4 offset-1">
         <form method="post" asp-action="Edit">
             <input type="hidden" asp-for="CompanyId" />
+            <input type="hidden" asp-for="OwnerName" />
             <div class="form-group">
                 <label asp-for="Name"></label>
                 <input asp-for="Name" class="form-control" />

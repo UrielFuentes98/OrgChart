@@ -2,7 +2,7 @@
 
 namespace OrgChart.Migrations
 {
-    public partial class AddCompany : Migration
+    public partial class CreateCompany : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,8 +12,9 @@ namespace OrgChart.Migrations
                 {
                     CompanyId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    Address = table.Column<string>(nullable: true)
+                    OwnerName = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    Address = table.Column<string>(maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {

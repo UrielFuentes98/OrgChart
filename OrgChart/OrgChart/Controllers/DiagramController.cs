@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using OrgChart.Models;
 using OrgChart.ViewModels;
 using System;
@@ -10,10 +11,12 @@ namespace OrgChart.Controllers
 {
     public class DiagramController : Controller
     {
+        private readonly ILogger<EmployeeController> logger;
         private readonly IEmployeeRepository employeeRepository;
 
-        public DiagramController(IEmployeeRepository employeeRepository)
+        public DiagramController(ILogger<EmployeeController> logger, IEmployeeRepository employeeRepository)
         {
+            this.logger = logger;
             this.employeeRepository = employeeRepository;
         }
         public IActionResult List(IEnumerable<Employee> employees)
@@ -33,6 +36,11 @@ namespace OrgChart.Controllers
 
         public IActionResult Chart(int empId)
         {
+            var user = User.Identity.Name;
+            if (user != null)
+            {
+                logger.LogInformation(user);
+            }
             IEnumerable<Employee> employeesGroup;
             Employee manager;
 

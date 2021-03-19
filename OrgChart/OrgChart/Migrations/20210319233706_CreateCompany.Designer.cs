@@ -9,8 +9,8 @@ using OrgChart.Models;
 namespace OrgChart.Migrations
 {
     [DbContext(typeof(OrgChartDbContext))]
-    [Migration("20210319170034_AddCompany")]
-    partial class AddCompany
+    [Migration("20210319233706_CreateCompany")]
+    partial class CreateCompany
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,9 +28,16 @@ namespace OrgChart.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("OwnerName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CompanyId");
