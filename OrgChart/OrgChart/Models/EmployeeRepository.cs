@@ -28,9 +28,9 @@ namespace OrgChart.Models
             db.SaveChanges();
         }
 
-        public IEnumerable<Employee> GetAllEmployees()
+        public IEnumerable<Employee> GetAllEmployees(int? compId = 0)
         {
-            return db.Employees;
+            return db.Employees.Where(e => e.CompanyId == compId);
         }
 
         //Search if input string is in the first name or last name. 

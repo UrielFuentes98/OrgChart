@@ -24,14 +24,27 @@ namespace OrgChart.Controllers
         }
         public IActionResult List(IEnumerable<Employee> employees)
         {
-            if (!employees.Any())
+            var companyId = HttpContext.Session.GetInt32("company_id");
+
+            //Check if a company was selected
+            if (companyId > 0)
             {
-                var allEmployees = employeeRepository.GetAllEmployees();
-                return View(allEmployees);
+                ViewBag.CompanyName = companyRepository.GetCompanyById(companyId).Name;
+                if (!employees.Any())
+                {
+                    var allEmployees = employeeRepository.GetAllEmployees(companyId);
+                    return View(allEmployees);
+                }
+                else
+                {
+                    return View(employees);
+                }
             }
             else
             {
-                return View(employees);
+                ViewBag.CompanyName = "Select a company";
+                var noEmployees = new List<Employee>();
+                return View(noEmployees);
             }
 
         }

@@ -7,7 +7,7 @@ namespace OrgChart.Models
 {
     public interface IEmployeeRepository
     {
-        IEnumerable<Employee> GetAllEmployees();
+        IEnumerable<Employee> GetAllEmployees(int? compId = 0);
         IEnumerable<Employee> GetSubordinates(int managerId);
 
         Employee GetEmployeeInfo(int employeeId);

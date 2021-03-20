@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<Employee>
 
+<h2>@ViewBag.CompanyName</h2>
 @if (Model.Any())
 {
     <div class="row">
@@ -11,10 +12,13 @@
 }
 else
 {
-    <div>
-        <a class="btn btn-primary"
-           asp-controller="Employee"
-           asp-action="Edit"
-           asp-route-isEdit="false">Add first employee.</a>
-    </div>
+    @if (!String.Equals(@ViewBag.CompanyName, "Select a company"))
+    {
+        <div>
+            <a class="btn btn-primary"
+               asp-controller="Employee"
+               asp-action="Edit"
+               asp-route-isEdit="false">Add first employee.</a>
+        </div>
+    }
 }
