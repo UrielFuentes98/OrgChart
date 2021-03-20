@@ -12,7 +12,10 @@
                    asp-route-isEdit="true">
                     <i class="far fa-edit"></i>
                 </a>
-                <a>Select</a>
+                <a
+                   asp-controller="Company"
+                   asp-action="SelectCompany"
+                   asp-route-companyId="@Model.CompanyId">Select</a>
             </div>
         </div>
     </div>

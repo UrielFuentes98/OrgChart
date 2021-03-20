@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OrgChart.Models;
 using OrgChart.ViewModels;
@@ -38,7 +39,8 @@ namespace OrgChart.Controllers
             var user = User.Identity.Name;
             if (user != null)
             {
-
+                var companyId = HttpContext.Session.GetInt32("company_id");
+                logger.LogInformation(companyId.ToString());
                 IEnumerable<Employee> employeesGroup;
                 Employee manager;
 

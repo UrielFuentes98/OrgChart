@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using OrgChart.Models;
 using System;
 using System.Collections.Generic;
@@ -58,6 +59,12 @@ namespace OrgChart.Controllers
                 companyRepository.CreateComapany(company);
             }
             return RedirectToAction("List");
+        }
+
+        public IActionResult SelectCompany (int companyId)
+        {
+            HttpContext.Session.SetInt32("company_id", companyId);
+            return RedirectToAction("Chart", "Diagram");
         }
     }
 }

@@ -35,6 +35,14 @@ namespace OrgChart
             services.AddControllersWithViews();
             services.AddRazorPages();
 
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             services.Configure<IdentityOptions>(options =>
             {
                 // Default Password settings.
@@ -67,8 +75,9 @@ namespace OrgChart
             app.UseRouting();
 
             app.UseAuthentication();
-
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
