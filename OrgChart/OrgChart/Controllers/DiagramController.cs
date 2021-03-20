@@ -31,7 +31,6 @@ namespace OrgChart.Controllers
                 return View(employees);
             }
 
-            
         }
 
         public IActionResult Chart(int empId)
@@ -39,26 +38,30 @@ namespace OrgChart.Controllers
             var user = User.Identity.Name;
             if (user != null)
             {
-                logger.LogInformation(user);
-            }
-            IEnumerable<Employee> employeesGroup;
-            Employee manager;
 
-            //If no id provided default to first employee added
-            if (empId == 0)
-            {
-                employeesGroup = employeeRepository.GetSubordinates(1);
-                manager = employeeRepository.GetEmployeeInfo(1);
+                IEnumerable<Employee> employeesGroup;
+                Employee manager;
+
+                //If no id provided default to first employee added
+                if (empId == 0)
+                {
+                    employeesGroup = employeeRepository.GetSubordinates(1);
+                    manager = employeeRepository.GetEmployeeInfo(1);
+                }
+                else
+                {
+                    employeesGroup = employeeRepository.GetSubordinates(empId);
+                    manager = employeeRepository.GetEmployeeInfo(empId);
+                }
+
+                var employeesView = new ChartList(employeesGroup, manager);
+
+                return View(employeesView);
             }
             else
             {
-                employeesGroup = employeeRepository.GetSubordinates(empId);
-                manager = employeeRepository.GetEmployeeInfo(empId);
+                return LocalRedirect("/Identity/Account/Login");
             }
-
-            var employeesView = new ChartList(employeesGroup, manager);
-
-            return View(employeesView);
         }
 
         public IActionResult SearchEmployee(string empName)
@@ -75,7 +78,7 @@ namespace OrgChart.Controllers
                 {
                     return RedirectToAction("Detail", "Employee", new { empId = employeesFound.First().EmployeeId });
                 }
-                
+
             }
             else
             {
