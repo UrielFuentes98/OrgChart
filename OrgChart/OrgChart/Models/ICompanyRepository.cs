@@ -11,7 +11,7 @@ namespace OrgChart.Models
         void CreateComapany(Company company);
 
         void UpdateCompany(Company company);
-        Company GetCompanyById(int compId);
+        Company GetCompanyById(int? compId);
 
         void CreateEmployee(Employee newEmployee, int? companyId);
     }

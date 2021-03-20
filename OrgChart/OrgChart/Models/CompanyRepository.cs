@@ -36,7 +36,7 @@ namespace OrgChart.Models
             return db.Companies.Where(c => c.OwnerName == userName);
         }
 
-        public Company GetCompanyById(int compId)
+        public Company GetCompanyById(int? compId)
         {
             return db.Companies.SingleOrDefault(c => c.CompanyId == compId);
         }

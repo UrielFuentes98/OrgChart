@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace OrgChart.ViewModels
 {
-    public class ChartList
+    public class ChartData
     {
-        public ChartList(IEnumerable<Employee> employees, Employee manager)
+        public ChartData(IEnumerable<Employee> employees, Employee manager)
         {
             Employees = employees;
             Manager = manager;

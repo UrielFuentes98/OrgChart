@@ -14,11 +14,13 @@ namespace OrgChart.Controllers
     {
         private readonly ILogger<EmployeeController> logger;
         private readonly IEmployeeRepository employeeRepository;
+        private readonly ICompanyRepository companyRepository;
 
-        public DiagramController(ILogger<EmployeeController> logger, IEmployeeRepository employeeRepository)
+        public DiagramController(ILogger<EmployeeController> logger, IEmployeeRepository employeeRepository, ICompanyRepository companyRepository)
         {
             this.logger = logger;
             this.employeeRepository = employeeRepository;
+            this.companyRepository = companyRepository;
         }
         public IActionResult List(IEnumerable<Employee> employees)
         {
@@ -40,30 +42,36 @@ namespace OrgChart.Controllers
             if (user != null)
             {
                 var companyId = HttpContext.Session.GetInt32("company_id");
-                logger.LogInformation(companyId.ToString());
-                IEnumerable<Employee> employeesGroup;
-                Employee manager;
+                IEnumerable<Employee> employeesGroup = null;
+                Employee manager = null;
 
-                //If no id provided default to first employee added
-                if (empId == 0)
+                //Check if a company is selected.
+                if (companyId > 0)
                 {
-                    manager = employeeRepository.GetFirstEmployeeInfo(companyId);
-                    if (manager != null)
+                    ViewBag.CompanyName = companyRepository.GetCompanyById(companyId).Name;
+
+                    //If no id provided default to first employee added to company
+                    if (empId == 0)
                     {
-                        employeesGroup = employeeRepository.GetSubordinates(manager.EmployeeId);
+                        manager = employeeRepository.GetFirstEmployeeInfo(companyId);
+
+                        //If manager found look for its subordinates
+                        if (manager != null)
+                        {
+                            employeesGroup = employeeRepository.GetSubordinates(manager.EmployeeId);
+                        }
                     }
                     else
                     {
-                        employeesGroup = null;
+                        employeesGroup = employeeRepository.GetSubordinates(empId);
+                        manager = employeeRepository.GetEmployeeInfo(empId);
                     }
                 }
                 else
                 {
-                    employeesGroup = employeeRepository.GetSubordinates(empId);
-                    manager = employeeRepository.GetEmployeeInfo(empId);
+                    ViewBag.CompanyName = "Select a company";
                 }
-
-                var employeesView = new ChartList(employeesGroup, manager);
+                var employeesView = new ChartData(employeesGroup, manager);
 
                 return View(employeesView);
             }
@@ -79,6 +87,7 @@ namespace OrgChart.Controllers
 
             if (employeesFound.Any())
             {
+                //If more than one employee show List if only one show detail
                 if (employeesFound.Count() > 1)
                 {
                     return View("List", employeesFound);
