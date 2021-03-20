@@ -47,8 +47,15 @@ namespace OrgChart.Controllers
                 //If no id provided default to first employee added
                 if (empId == 0)
                 {
-                    employeesGroup = employeeRepository.GetSubordinates(1);
-                    manager = employeeRepository.GetEmployeeInfo(1);
+                    manager = employeeRepository.GetFirstEmployeeInfo(companyId);
+                    if (manager != null)
+                    {
+                        employeesGroup = employeeRepository.GetSubordinates(manager.EmployeeId);
+                    }
+                    else
+                    {
+                        employeesGroup = null;
+                    }
                 }
                 else
                 {

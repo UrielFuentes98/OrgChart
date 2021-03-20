@@ -20,6 +20,16 @@ namespace OrgChart.Models
             db.SaveChanges();
         }
 
+        public void CreateEmployee(Employee newEmployee, int? companyId)
+        {
+            var selectedCompany = db.Companies.SingleOrDefault(c => c.CompanyId == companyId);
+
+            if (selectedCompany != null)
+            {
+                selectedCompany.Employees.Add(newEmployee);
+                db.SaveChanges();
+            }
+        }
 
         public IEnumerable<Company> GetCompaniesOfUser(string userName)
         {

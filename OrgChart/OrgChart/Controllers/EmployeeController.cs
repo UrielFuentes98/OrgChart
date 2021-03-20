@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OrgChart.Models;
 using OrgChart.ViewModels;
@@ -14,11 +15,13 @@ namespace OrgChart.Controllers
     {
         private readonly ILogger<EmployeeController> _logger;
         private readonly IEmployeeRepository employeeRepository;
+        private readonly ICompanyRepository companyRepository;
 
-        public EmployeeController(ILogger<EmployeeController> logger, IEmployeeRepository employeeRepository)
+        public EmployeeController(ILogger<EmployeeController> logger, IEmployeeRepository employeeRepository, ICompanyRepository companyRepository)
         {
             _logger = logger;
             this.employeeRepository = employeeRepository;
+            this.companyRepository = companyRepository;
         }
 
         //TO DO - Check how to delete functions
@@ -82,15 +85,16 @@ namespace OrgChart.Controllers
             {
                 return View();
             }
-            //Check if employee with givel id is in DB. If so update, else add.
-            var actualEmployee = employeeRepository.GetEmployeeInfo(employee.EmployeeId);
-            if (actualEmployee != null)
+
+            if (employee.EmployeeId > 0)
             {
                 employeeRepository.UpdateEmployee(employee);
                 return RedirectToAction("Chart", "Diagram", employee.EmployeeId);
             }
             else
             {
+                var companyId = HttpContext.Session.GetInt32("company_id");
+                employee.CompanyId = companyId;
                 employeeRepository.AddEmployee(employee);
                 return RedirectToAction("Chart", "Diagram", employee.ManagerId);
             }

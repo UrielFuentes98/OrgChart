@@ -12,6 +12,7 @@ namespace OrgChart.Models
 
         Employee GetEmployeeInfo(int employeeId);
 
+        Employee GetFirstEmployeeInfo(int? companyId);
         void AddEmployee(Employee employee);
 
         void UpdateEmployee(Employee employee);
