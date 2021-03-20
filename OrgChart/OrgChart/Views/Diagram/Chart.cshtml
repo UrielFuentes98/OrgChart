@@ -15,12 +15,15 @@
 }
 else
 {
-    <div class="text-center">
-        <a class="btn btn-primary"
-           asp-controller="Employee"
-           asp-action="Edit"
-           asp-route-isEdit="false">Add first employee.</a>
-    </div>
+    @if (!String.Equals(@ViewBag.CompanyName, "Select a company"))
+    {
+        <div class="text-center">
+            <a class="btn btn-primary"
+               asp-controller="Employee"
+               asp-action="Edit"
+               asp-route-isEdit="false">Add first employee.</a>
+        </div>
+    }
 }
 
 
