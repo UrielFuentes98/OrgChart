@@ -14,5 +14,8 @@ namespace OrgChart.Models
         Company GetCompanyById(int? compId);
 
         void CreateEmployee(Employee newEmployee, int? companyId);
+
+        void DeleteCompany(Company company);
+        bool HasEmployees(int compId);
     }
 }

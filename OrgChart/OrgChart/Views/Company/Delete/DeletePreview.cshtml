@@ -1,17 +1,17 @@
-﻿@model Employee
+﻿@model Company
 
 <div class="row justify-content-center">
     <div class="col">
-        <partial name="_EmployeeCard" model="Model" />
+        <partial name="_CompanyCard" model="Model" />
         <a class="btn btn-danger mr-3"
-           asp-controller="Employee"
+           asp-controller="Company"
            asp-action="DeleteConfirmation"
-           asp-route-empId="@Model.EmployeeId">
+           asp-route-compId="@Model.CompanyId">
             Confirm Delete
         </a>
         <a class="btn btn-primary"
-           asp-controller="Diagram"
-           asp-action="Chart">
+           asp-controller="Company"
+           asp-action="List">
             Cancel
         </a>
     </div>

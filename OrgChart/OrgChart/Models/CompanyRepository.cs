@@ -31,6 +31,12 @@ namespace OrgChart.Models
             }
         }
 
+        public void DeleteCompany(Company company)
+        {
+            db.Companies.Remove(company);
+            db.SaveChanges();
+        }
+
         public IEnumerable<Company> GetCompaniesOfUser(string userName)
         {
             return db.Companies.Where(c => c.OwnerName == userName);
@@ -39,6 +45,13 @@ namespace OrgChart.Models
         public Company GetCompanyById(int? compId)
         {
             return db.Companies.SingleOrDefault(c => c.CompanyId == compId);
+        }
+
+        public bool HasEmployees(int compId)
+        {
+            var hasEmployees = db.Employees.Any(e => e.CompanyId == compId);
+
+            return hasEmployees;
         }
 
         public void UpdateCompany(Company company)

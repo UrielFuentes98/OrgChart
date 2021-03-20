@@ -30,6 +30,7 @@ namespace OrgChart.Controllers
             if (companyId > 0)
             {
                 ViewBag.CompanyName = companyRepository.GetCompanyById(companyId).Name;
+
                 if (!employees.Any())
                 {
                     var allEmployees = employeeRepository.GetAllEmployees(companyId);

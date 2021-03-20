@@ -12,8 +12,13 @@
                    asp-route-isEdit="true">
                     <i class="far fa-edit"></i>
                 </a>
-                <a
+                <a class="icon-link" title="Delete"
                    asp-controller="Company"
+                   asp-action="DeletePreview"
+                   asp-route-compId="@Model.CompanyId">
+                    <i class="fas fa-trash"></i>
+                </a>
+                <a asp-controller="Company"
                    asp-action="SelectCompany"
                    asp-route-companyId="@Model.CompanyId">Select</a>
             </div>

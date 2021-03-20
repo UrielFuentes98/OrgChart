@@ -66,5 +66,33 @@ namespace OrgChart.Controllers
             HttpContext.Session.SetInt32("company_id", companyId);
             return RedirectToAction("Chart", "Diagram");
         }
+
+        public IActionResult DeletePreview(int compId)
+        {
+            //If employee has subordinates cant be deleted because
+            //it would broke the org employee tree.
+
+            var compHasSub = companyRepository.HasEmployees(compId);
+
+            if (compHasSub)
+            {
+                ViewBag.Message = "Sorry company has employees so cannot be deleted.";
+                return View("_ErrorMessage");
+
+            }
+            else
+            {
+                var compToDelete = companyRepository.GetCompanyById(compId);
+                return View("Delete/DeletePreview", compToDelete);
+            }
+
+        }
+
+        public IActionResult DeleteConfirmation(int compId)
+        {
+            var compToDelete = companyRepository.GetCompanyById(compId);
+            companyRepository.DeleteCompany(compToDelete);
+            return View("Delete/DeleteConfirmation");
+        }
     }
 }
