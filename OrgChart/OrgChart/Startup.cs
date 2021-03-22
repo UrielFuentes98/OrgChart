@@ -28,7 +28,7 @@ namespace OrgChart
         {
 
             services.AddDbContext<OrgChartDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("MyDbConnection")));
 
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();

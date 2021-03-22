@@ -1,46 +1,50 @@
 ﻿@model Employee
 
-    <div class="row">
-        <div class="col-4 offset-1">
-            <form method="post" asp-action="Edit">
-                <input type="hidden" asp-for="EmployeeId" />
-                <input type="hidden" asp-for="CompanyId" />
-                <input type="hidden" asp-for="ManagerId" />
-                <div class="form-group">
-                    <label asp-for="FirstName"></label>
-                    <input asp-for="FirstName" class="form-control" />
-                    <span asp-validation-for="FirstName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LastName"></label>
-                    <input asp-for="LastName" class="form-control" />
-                    <span asp-validation-for="LastName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Position"></label>
-                    <input asp-for="Position" class="form-control" />
-                    <span asp-validation-for="Position" class="text-danger"></span>
+@{
+    ViewData["Title"] = "Edit Employee";
+}
 
-                </div>
-                <div class="form-group">
-                    <label asp-for="Email"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Phone"></label>
-                    <input asp-for="Phone" class="form-control" />
-                    <span asp-validation-for="Phone" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Office"></label>
-                    <input asp-for="Office" class="form-control" />
-                    <span asp-validation-for="Office" class="text-danger"></span>
-                </div>
-                <button type="submit" class="btn btn-primary">Save</button>
-            </form>
-        </div>
-        <div class="col-3 align-self-center">
-            <img src="https://via.placeholder.com/600" class="card-image" alt="executive picture">
-        </div>
+<div class="row">
+    <div class="col-4 offset-1">
+        <form method="post" asp-action="Edit">
+            <input type="hidden" asp-for="EmployeeId" />
+            <input type="hidden" asp-for="CompanyId" />
+            <input type="hidden" asp-for="ManagerId" />
+            <div class="form-group">
+                <label asp-for="FirstName"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Position"></label>
+                <input asp-for="Position" class="form-control" />
+                <span asp-validation-for="Position" class="text-danger"></span>
+
+            </div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Office"></label>
+                <input asp-for="Office" class="form-control" />
+                <span asp-validation-for="Office" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
     </div>
+    <div class="col-3 align-self-center">
+        <img src="https://via.placeholder.com/600" class="card-image" alt="executive picture">
+    </div>
+</div>

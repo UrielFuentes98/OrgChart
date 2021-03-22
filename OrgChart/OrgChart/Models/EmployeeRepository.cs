@@ -34,37 +34,39 @@ namespace OrgChart.Models
         }
 
         //Search if input string is in the first name or last name. 
-        public IEnumerable<Employee> GetEmployeesByName(string inputName)
+        public IEnumerable<Employee> GetEmployeesByName(string inputName, int? companyId = 0)
         {
-            
+
             //Check for input in first name
-            var empByFirstName = db.Employees.AsNoTracking().Where(e => e.FirstName.StartsWith(inputName));
+            var empByFirstName = db.Employees.AsNoTracking().Where(e => e.FirstName
+                .StartsWith(inputName) && e.CompanyId == companyId);
             if (!empByFirstName.Any())
             {
                 //Check for input in last name
-                var empByLastName = db.Employees.AsNoTracking().Where(e => e.LastName.StartsWith(inputName));
+                var empByLastName = db.Employees.AsNoTracking().Where(e => e.LastName
+                    .StartsWith(inputName) && e.CompanyId == companyId);
 
                 if (!empByLastName.Any())
                 {
                     //Check for input in both first and last name
                     var inputNoSpaces = Regex.Replace(inputName, @"\s+", "");
-                    var empByFullName = db.Employees.ToList().Where(e => Regex.Replace(e.FirstName + e.LastName, @"\s+", "").StartsWith( inputNoSpaces));
+                    var empByFullName = db.Employees.ToList().Where(e => Regex.Replace(e.FirstName + e.LastName, @"\s+", "")
+                        .StartsWith(inputNoSpaces) && e.CompanyId == companyId);
                     return empByFullName;
                 }
                 return empByLastName;
             }
-            var x = empByFirstName.First();
             return empByFirstName;
         }
 
-        public Employee GetEmployeeInfo(int employeeId)
+        public Employee GetEmployeeInfo(int employeeId, int? companyId = 0)
         {
-            return db.Employees.AsNoTracking().SingleOrDefault(e => e.EmployeeId == employeeId);
+            return db.Employees.AsNoTracking().SingleOrDefault(e => e.EmployeeId == employeeId && e.CompanyId == companyId);
         }
 
-        public IEnumerable<Employee> GetSubordinates(int managerId)
+        public IEnumerable<Employee> GetSubordinates(int managerId, int? companyId = 0)
         {
-            return db.Employees.Where(e => e.ManagerId == managerId).OrderBy(e => e.LastName);
+            return db.Employees.Where(e => e.ManagerId == managerId && e.CompanyId == companyId).OrderBy(e => e.LastName);
         }
 
         public bool HasSubordiantes(int employeeId)
@@ -87,7 +89,7 @@ namespace OrgChart.Models
             db.SaveChanges();
         }
 
-        public Employee GetFirstEmployeeInfo( int? companyId)
+        public Employee GetFirstEmployeeInfo(int? companyId)
         {
             var x = db.Employees;
             return db.Employees.FirstOrDefault(e => e.CompanyId == companyId);

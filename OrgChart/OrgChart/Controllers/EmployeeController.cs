@@ -26,19 +26,20 @@ namespace OrgChart.Controllers
 
         public IActionResult Detail(int empId)
         {
-            var employee = employeeRepository.GetEmployeeInfo(empId);
+            var companyId = HttpContext.Session.GetInt32("company_id");
+            var employee = employeeRepository.GetEmployeeInfo(empId, companyId);
 
             return View(employee);
         }
 
         public IActionResult Edit(int empId, bool isEdit)
         {
-            
+            var companyId = HttpContext.Session.GetInt32("company_id");
             //If edit mode, bind employe of id passed else create
             //employee with boss with passed id
             if (isEdit)
             {
-                var employee = employeeRepository.GetEmployeeInfo(empId);
+                var employee = employeeRepository.GetEmployeeInfo(empId, companyId);
                 return View(employee);
             }
             else
@@ -86,7 +87,8 @@ namespace OrgChart.Controllers
             }
             else
             {
-                var empToDelete = employeeRepository.GetEmployeeInfo(empId);
+                var companyId = HttpContext.Session.GetInt32("company_id");
+                var empToDelete = employeeRepository.GetEmployeeInfo(empId, companyId);
                 return View("Delete/DeletePreview", empToDelete);
             }
 
@@ -94,7 +96,8 @@ namespace OrgChart.Controllers
 
         public IActionResult DeleteConfirmation(int empId)
         {
-            var empToDelete = employeeRepository.GetEmployeeInfo(empId);
+            var companyId = HttpContext.Session.GetInt32("company_id");
+            var empToDelete = employeeRepository.GetEmployeeInfo(empId, companyId);
             employeeRepository.DeleteEmployee(empToDelete);
             return View("Delete/DeleteConfirmation", empToDelete.ManagerId);
         }

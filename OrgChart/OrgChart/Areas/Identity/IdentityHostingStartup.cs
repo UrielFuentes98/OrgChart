@@ -18,7 +18,7 @@ namespace OrgChart.Areas.Identity
             builder.ConfigureServices((context, services) => {
                 services.AddDbContext<OrgChartContext>(options =>
                     options.UseSqlServer(
-                        context.Configuration.GetConnectionString("OrgChartContextConnection")));
+                        context.Configuration.GetConnectionString("MyDbConnection")));
 
                 services.AddDefaultIdentity<OrgChartUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<OrgChartContext>();

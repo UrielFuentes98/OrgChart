@@ -1,5 +1,9 @@
 ﻿@model int
 
+@{
+    ViewData["Title"] = "Delete Confirmation";
+}
+
 <div class="row">
     <div class="col-4">
         <div class="alert alert-danger">Employee deleted.</div>
@@ -9,5 +13,5 @@
            asp-route-empId="@Model">
             Back To Chart
         </a>
-    </div> 
+    </div>
 </div>

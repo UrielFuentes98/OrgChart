@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<Employee>
 
+@{
+    ViewData["Title"] = "Employees List";
+}
+
 <h2>@ViewBag.CompanyName</h2>
 @if (Model.Any())
 {

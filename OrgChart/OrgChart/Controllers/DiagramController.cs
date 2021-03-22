@@ -44,6 +44,7 @@ namespace OrgChart.Controllers
             else
             {
                 ViewBag.CompanyName = "Select a company";
+                //No company, so create empty Employee list to render
                 var noEmployees = new List<Employee>();
                 return View(noEmployees);
             }
@@ -72,13 +73,13 @@ namespace OrgChart.Controllers
                         //If manager found look for its subordinates
                         if (manager != null)
                         {
-                            employeesGroup = employeeRepository.GetSubordinates(manager.EmployeeId);
+                            employeesGroup = employeeRepository.GetSubordinates(manager.EmployeeId, companyId);
                         }
                     }
                     else
                     {
-                        employeesGroup = employeeRepository.GetSubordinates(empId);
-                        manager = employeeRepository.GetEmployeeInfo(empId);
+                        employeesGroup = employeeRepository.GetSubordinates(empId, companyId);
+                        manager = employeeRepository.GetEmployeeInfo(empId, companyId);
                     }
                 }
                 else
@@ -97,7 +98,8 @@ namespace OrgChart.Controllers
 
         public IActionResult SearchEmployee(string empName)
         {
-            var employeesFound = employeeRepository.GetEmployeesByName(empName);
+            var companyId = HttpContext.Session.GetInt32("company_id");
+            var employeesFound = employeeRepository.GetEmployeesByName(empName, companyId);
 
             if (employeesFound.Any())
             {

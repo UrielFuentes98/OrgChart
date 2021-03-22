@@ -1,5 +1,9 @@
 ﻿@model ChartData
 
+@{
+    ViewData["Title"] = "Chart";
+}
+
 <h2>@ViewBag.CompanyName</h2>
 @if (Model.Manager != null && Model.Employees != null)
 {

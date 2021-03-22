@@ -8,9 +8,9 @@ namespace OrgChart.Models
     public interface IEmployeeRepository
     {
         IEnumerable<Employee> GetAllEmployees(int? compId = 0);
-        IEnumerable<Employee> GetSubordinates(int managerId);
+        IEnumerable<Employee> GetSubordinates(int managerId, int? companyId = 0);
 
-        Employee GetEmployeeInfo(int employeeId);
+        Employee GetEmployeeInfo(int employeeId, int? companyId = 0);
 
         Employee GetFirstEmployeeInfo(int? companyId);
         void AddEmployee(Employee employee);
@@ -21,6 +21,6 @@ namespace OrgChart.Models
 
         bool HasSubordiantes(int employeeId);
 
-        IEnumerable<Employee> GetEmployeesByName(string inputName);
+        IEnumerable<Employee> GetEmployeesByName(string inputName, int? companyId = 0);
     }
 }
