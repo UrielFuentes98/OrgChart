@@ -26,8 +26,8 @@ namespace OrgChart.Controllers
         public IActionResult Edit(int compId, bool isEdit)
         {
 
-            //If edit mode, bind employe of id passed else create
-            //employee with boss with passed id
+            //If edit mode, bind company of id passed else create new company
+
             if (isEdit)
             {
                 var company = companyRepository.GetCompanyById(compId);
@@ -43,10 +43,12 @@ namespace OrgChart.Controllers
         [HttpPost]
         public IActionResult Edit(Company company)
         {
+            //If model is not valid return to inform the user
             if (!ModelState.IsValid)
             {
                 return View();
             }
+
             //Check if company id is valid to determine if create or update.
             if (company.CompanyId > 0)
             {
@@ -58,19 +60,22 @@ namespace OrgChart.Controllers
                 company.OwnerName = userName;
                 companyRepository.CreateComapany(company);
             }
+
             return RedirectToAction("List");
         }
 
         public IActionResult SelectCompany (int companyId)
         {
+
+            //Add selected company id to the session for tracking
             HttpContext.Session.SetInt32("company_id", companyId);
             return RedirectToAction("Chart", "Diagram");
         }
 
         public IActionResult DeletePreview(int compId)
         {
-            //If employee has subordinates cant be deleted because
-            //it would broke the org employee tree.
+            //If company has employees cant be deleted to avoid 
+            //letting employees without a company in DB.
 
             var compHasSub = companyRepository.HasEmployees(compId);
 

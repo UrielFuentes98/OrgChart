@@ -91,7 +91,6 @@ namespace OrgChart.Models
 
         public Employee GetFirstEmployeeInfo(int? companyId)
         {
-            var x = db.Employees;
             return db.Employees.FirstOrDefault(e => e.CompanyId == companyId);
         }
     }

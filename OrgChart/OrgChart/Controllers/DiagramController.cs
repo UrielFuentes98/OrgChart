@@ -31,6 +31,7 @@ namespace OrgChart.Controllers
             {
                 ViewBag.CompanyName = companyRepository.GetCompanyById(companyId).Name;
 
+                //If employee list passed, render it, if not render all employees registered.
                 if (!employees.Any())
                 {
                     var allEmployees = employeeRepository.GetAllEmployees(companyId);

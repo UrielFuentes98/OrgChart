@@ -36,7 +36,7 @@ namespace OrgChart.Controllers
         {
             var companyId = HttpContext.Session.GetInt32("company_id");
             //If edit mode, bind employe of id passed else create
-            //employee with boss with passed id
+            //employee with manager with passed id
             if (isEdit)
             {
                 var employee = employeeRepository.GetEmployeeInfo(empId, companyId);
@@ -52,11 +52,13 @@ namespace OrgChart.Controllers
         [HttpPost]
         public IActionResult Edit(Employee employee)
         {
+            //If invalid form rerender to inform user.
             if (!ModelState.IsValid)
             {
                 return View();
             }
 
+            //If employee Id valid, update employee if not, create new one.
             if (employee.EmployeeId > 0)
             {
                 employeeRepository.UpdateEmployee(employee);

@@ -19,7 +19,9 @@
 }
 else
 {
-    @if (!String.Equals(@ViewBag.CompanyName, "Select a company"))
+    //if company selected add button to create first employee
+
+    @if(!String.Equals(@ViewBag.CompanyName, "Select a company"))
     {
         <div class="text-center">
             <a class="btn btn-primary"
