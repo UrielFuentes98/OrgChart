@@ -76,6 +76,7 @@ namespace OrgChart.Controllers
                         {
                             employeesGroup = employeeRepository.GetSubordinates(manager.EmployeeId, companyId);
                         }
+                        logger.LogInformation("Rendering chart from top");
                     }
                     else
                     {
