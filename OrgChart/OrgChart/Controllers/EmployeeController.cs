@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OrgChart.Models;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace OrgChart.Controllers
 {
+    [Authorize]
     public class EmployeeController : Controller
     {
         private readonly ILogger<EmployeeController> _logger;

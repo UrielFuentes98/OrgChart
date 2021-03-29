@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OrgChart.Models;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace OrgChart.Controllers
 {
+    [Authorize]
     public class DiagramController : Controller
     {
         private readonly ILogger<EmployeeController> logger;
@@ -54,9 +56,6 @@ namespace OrgChart.Controllers
 
         public IActionResult Chart(int empId)
         {
-            var user = User.Identity.Name;
-            if (user != null)
-            {
                 var companyId = HttpContext.Session.GetInt32("company_id");
                 IEnumerable<Employee> employeesGroup = null;
                 Employee manager = null;
@@ -91,11 +90,6 @@ namespace OrgChart.Controllers
                 var employeesView = new ChartData(employeesGroup, manager);
 
                 return View(employeesView);
-            }
-            else
-            {
-                return LocalRedirect("/Identity/Account/Login");
-            }
         }
 
         public IActionResult SearchEmployee(string empName)
