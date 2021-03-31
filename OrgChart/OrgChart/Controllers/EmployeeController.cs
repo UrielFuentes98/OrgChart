@@ -7,6 +7,7 @@ using OrgChart.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,20 +19,21 @@ namespace OrgChart.Controllers
         private readonly ILogger<EmployeeController> _logger;
         private readonly IEmployeeRepository employeeRepository;
         private readonly ICompanyRepository companyRepository;
-
-        public EmployeeController(ILogger<EmployeeController> logger, IEmployeeRepository employeeRepository, ICompanyRepository companyRepository)
+        private readonly IPictureRepository pictureRepository;
+        public EmployeeController(ILogger<EmployeeController> logger, IEmployeeRepository employeeRepository, ICompanyRepository companyRepository, IPictureRepository pictureRepository)
         {
             _logger = logger;
             this.employeeRepository = employeeRepository;
             this.companyRepository = companyRepository;
+            this.pictureRepository = pictureRepository;
         }
 
         public IActionResult Detail(int empId)
         {
             var companyId = HttpContext.Session.GetInt32("company_id");
             var employee = employeeRepository.GetEmployeeInfo(empId, companyId);
-
-            return View(employee);
+            var empWithImgString = EmployeeWithImgString.GetEmployeeWithImgString(employee);
+            return View(empWithImgString);
         }
 
         public IActionResult Edit(int empId, bool isEdit)
@@ -42,17 +44,21 @@ namespace OrgChart.Controllers
             if (isEdit)
             {
                 var employee = employeeRepository.GetEmployeeInfo(empId, companyId);
-                return View(employee);
+                var empWithNoFile = new EmployeeWithFormPic() { Employee = employee };
+                return View(empWithNoFile);
             }
             else
             {
-                var employee = new Employee() { ManagerId = empId };
-                return View(employee);
+                var newEmployee = new Employee() { ManagerId = empId };
+                var employeeWithPicture = new EmployeeWithFormPic()
+                { Employee = newEmployee };
+
+                return View(employeeWithPicture);
             }
         }
 
         [HttpPost]
-        public IActionResult Edit(Employee employee)
+        public async Task<IActionResult> Edit(EmployeeWithFormPic employeeWithPicture)
         {
             //If invalid form rerender to inform user.
             if (!ModelState.IsValid)
@@ -61,19 +67,63 @@ namespace OrgChart.Controllers
             }
 
             //If employee Id valid, update employee if not, create new one.
-            if (employee.EmployeeId > 0)
+            if (employeeWithPicture.Employee.EmployeeId > 0)
             {
-                employeeRepository.UpdateEmployee(employee);
-                return RedirectToAction("Chart", "Diagram", employee.EmployeeId);
+                //Save image data to db if image was uploaded
+                if (employeeWithPicture.FormPicture != null)
+                {
+                    using var memoryStream = new MemoryStream();
+                    await employeeWithPicture.FormPicture.CopyToAsync(memoryStream);
+
+                    employeeWithPicture.Employee.EmployeePicture = new EmployeePicture()
+                    {
+                        Content = memoryStream.ToArray(),
+                        Name = employeeWithPicture.FormPicture.FileName,
+                    };
+                    employeeRepository.UpdateEmployee(employeeWithPicture.Employee);
+                }
+                else
+                {
+                    //Get previous employee picture if picture was not changed.
+                    var employeePicture = employeeRepository
+                                            .GetEmployeeInfo(employeeWithPicture.Employee.EmployeeId, employeeWithPicture.Employee.CompanyId)
+                                            .EmployeePicture;
+
+                    employeeWithPicture.Employee.EmployeePicture = employeePicture;
+                    employeeRepository.UpdateEmployee(employeeWithPicture.Employee);
+                }
+
+
+
+                return RedirectToAction("Chart", "Diagram", employeeWithPicture.Employee.EmployeeId);
             }
             else
             {
                 var companyId = HttpContext.Session.GetInt32("company_id");
-                employee.CompanyId = companyId;
-                employeeRepository.AddEmployee(employee);
-                return RedirectToAction("Chart", "Diagram", employee.ManagerId);
+                employeeWithPicture.Employee.CompanyId = companyId;
+
+                //Save image data to db if image was uploaded
+                if (employeeWithPicture.FormPicture != null)
+                {
+                    using var memoryStream = new MemoryStream();
+                    await employeeWithPicture.FormPicture.CopyToAsync(memoryStream);
+
+                    employeeWithPicture.Employee.EmployeePicture = new EmployeePicture()
+                    {
+                        Content = memoryStream.ToArray(),
+                        Name = employeeWithPicture.FormPicture.FileName
+                    };
+                }
+                else
+                {
+                    employeeWithPicture.Employee.EmployeePicture = new EmployeePicture();
+                }
+
+                employeeRepository.AddEmployee(employeeWithPicture.Employee);
+                return RedirectToAction("Chart", "Diagram", employeeWithPicture.Employee.ManagerId);
+
             }
-            
+
         }
 
         public IActionResult DeletePreview(int empId)
@@ -93,7 +143,10 @@ namespace OrgChart.Controllers
             {
                 var companyId = HttpContext.Session.GetInt32("company_id");
                 var empToDelete = employeeRepository.GetEmployeeInfo(empId, companyId);
-                return View("Delete/DeletePreview", empToDelete);
+
+                //Add image encoded string to object for card rendering.
+                var empWithImgString = EmployeeWithImgString.GetEmployeeWithImgString(empToDelete);
+                return View("Delete/DeletePreview", empWithImgString);
             }
 
         }

@@ -30,7 +30,7 @@ namespace OrgChart.Models
 
         public IEnumerable<Employee> GetAllEmployees(int? compId = 0)
         {
-            return db.Employees.Where(e => e.CompanyId == compId);
+            return db.Employees.Include(e => e.EmployeePicture).Where(e => e.CompanyId == compId);
         }
 
         //Search if input string is in the first name or last name. 
@@ -38,19 +38,19 @@ namespace OrgChart.Models
         {
 
             //Check for input in first name
-            var empByFirstName = db.Employees.AsNoTracking().Where(e => e.FirstName
+            var empByFirstName = db.Employees.Include(e => e.EmployeePicture).AsNoTracking().Where(e => e.FirstName
                 .StartsWith(inputName) && e.CompanyId == companyId);
             if (!empByFirstName.Any())
             {
                 //Check for input in last name
-                var empByLastName = db.Employees.AsNoTracking().Where(e => e.LastName
+                var empByLastName = db.Employees.Include(e => e.EmployeePicture).AsNoTracking().Where(e => e.LastName
                     .StartsWith(inputName) && e.CompanyId == companyId);
 
                 if (!empByLastName.Any())
                 {
                     //Check for input in both first and last name
                     var inputNoSpaces = Regex.Replace(inputName, @"\s+", "");
-                    var empByFullName = db.Employees.ToList().Where(e => Regex.Replace(e.FirstName + e.LastName, @"\s+", "")
+                    var empByFullName = db.Employees.Include(e => e.EmployeePicture).ToList().Where(e => Regex.Replace(e.FirstName + e.LastName, @"\s+", "")
                         .StartsWith(inputNoSpaces) && e.CompanyId == companyId);
                     return empByFullName;
                 }
@@ -61,12 +61,12 @@ namespace OrgChart.Models
 
         public Employee GetEmployeeInfo(int employeeId, int? companyId = 0)
         {
-            return db.Employees.AsNoTracking().SingleOrDefault(e => e.EmployeeId == employeeId && e.CompanyId == companyId);
+            return db.Employees.Include(e => e.EmployeePicture).AsNoTracking().SingleOrDefault(e => e.EmployeeId == employeeId && e.CompanyId == companyId);
         }
 
         public IEnumerable<Employee> GetSubordinates(int managerId, int? companyId = 0)
         {
-            return db.Employees.Where(e => e.ManagerId == managerId && e.CompanyId == companyId).OrderBy(e => e.LastName);
+            return db.Employees.Include(e => e.EmployeePicture).Where(e => e.ManagerId == managerId && e.CompanyId == companyId).OrderBy(e => e.LastName);
         }
 
         public bool HasSubordiantes(int employeeId)
@@ -91,7 +91,7 @@ namespace OrgChart.Models
 
         public Employee GetFirstEmployeeInfo(int? companyId)
         {
-            return db.Employees.FirstOrDefault(e => e.CompanyId == companyId);
+            return db.Employees.Include(e => e.EmployeePicture).FirstOrDefault(e => e.CompanyId == companyId);
         }
     }
 }

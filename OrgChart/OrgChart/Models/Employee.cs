@@ -46,5 +46,9 @@ namespace OrgChart.Models
         public int? CompanyId { get; set; }
 
         public Company Company { get; set; }
+
+        public EmployeePicture EmployeePicture { get; set; }
+
+        public int EmployeePictureId { get; set; }
     }
 }

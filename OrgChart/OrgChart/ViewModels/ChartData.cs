@@ -8,13 +8,13 @@ namespace OrgChart.ViewModels
 {
     public class ChartData
     {
-        public ChartData(IEnumerable<Employee> employees, Employee manager)
+        public ChartData(List<EmployeeWithImgString> employees, EmployeeWithImgString manager)
         {
             Employees = employees;
             Manager = manager;
         }
-        public IEnumerable<Employee> Employees { get; set; }
+        public List<EmployeeWithImgString> Employees { get; set; }
 
-        public Employee Manager { get; set; }
+        public EmployeeWithImgString Manager { get; set; }
     }
 }

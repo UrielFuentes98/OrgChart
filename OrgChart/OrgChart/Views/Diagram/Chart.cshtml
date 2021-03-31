@@ -5,23 +5,26 @@
 }
 
 <h2>@ViewBag.CompanyName</h2>
-@if (Model.Manager != null && Model.Employees != null)
+@if (Model.Manager.Employee != null)
 {
     <div class="row justify-content-center">
         <partial name="_EmployeeCard" model="Model.Manager" />
     </div>
-    <div class="row justify-content-center">
-        @foreach (var employee in Model.Employees)
-        {
-            <partial name="_EmployeeCard" model="employee" />
-        }
-    </div>
+    @if (Model.Employees.Any())
+    {
+        <div class="row justify-content-center">
+            @foreach (var employee in Model.Employees)
+            {
+                <partial name="_EmployeeCard" model="employee" />
+            }
+        </div>
+    }
 }
 else
 {
     //if company selected add button to create first employee
 
-    @if(!String.Equals(@ViewBag.CompanyName, "Select a company"))
+    @if (!String.Equals(@ViewBag.CompanyName, "Select a company"))
     {
         <div class="text-center">
             <a class="btn btn-primary"

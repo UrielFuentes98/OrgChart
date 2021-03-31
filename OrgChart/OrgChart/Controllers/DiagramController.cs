@@ -24,7 +24,7 @@ namespace OrgChart.Controllers
             this.employeeRepository = employeeRepository;
             this.companyRepository = companyRepository;
         }
-        public IActionResult List(IEnumerable<Employee> employees)
+        public IActionResult List(List<EmployeeWithImgString> employees)
         {
             var companyId = HttpContext.Session.GetInt32("company_id");
 
@@ -37,7 +37,15 @@ namespace OrgChart.Controllers
                 if (!employees.Any())
                 {
                     var allEmployees = employeeRepository.GetAllEmployees(companyId);
-                    return View(allEmployees);
+                    var employeesWithImgString = new List<EmployeeWithImgString>();
+
+                    //Obtain image encoded string for each employee
+                    foreach (var employee in allEmployees)
+                    {
+                        employeesWithImgString.Add(EmployeeWithImgString.GetEmployeeWithImgString(employee)); 
+                    }
+
+                    return View(employeesWithImgString);
                 }
                 else
                 {
@@ -48,7 +56,7 @@ namespace OrgChart.Controllers
             {
                 ViewBag.CompanyName = "Select a company";
                 //No company, so create empty Employee list to render
-                var noEmployees = new List<Employee>();
+                var noEmployees = new List<EmployeeWithImgString>();
                 return View(noEmployees);
             }
 
@@ -56,40 +64,59 @@ namespace OrgChart.Controllers
 
         public IActionResult Chart(int empId)
         {
-                var companyId = HttpContext.Session.GetInt32("company_id");
-                IEnumerable<Employee> employeesGroup = null;
-                Employee manager = null;
+            var companyId = HttpContext.Session.GetInt32("company_id");
+            IEnumerable<Employee> employeesGroup;
+            Employee manager;
+            var empWithImgString = new List<EmployeeWithImgString>();
+            var manWithImgString = new EmployeeWithImgString();
 
-                //Check if a company is selected.
-                if (companyId > 0)
+            //Check if a company is selected.
+            if (companyId > 0)
+            {
+                ViewBag.CompanyName = companyRepository.GetCompanyById(companyId).Name;
+
+                //If no id provided default to first employee added to company
+                if (empId == 0)
                 {
-                    ViewBag.CompanyName = companyRepository.GetCompanyById(companyId).Name;
+                    manager = employeeRepository.GetFirstEmployeeInfo(companyId);
 
-                    //If no id provided default to first employee added to company
-                    if (empId == 0)
+                    //If manager found look for its subordinates
+                    if (manager != null)
                     {
-                        manager = employeeRepository.GetFirstEmployeeInfo(companyId);
+                        manWithImgString = EmployeeWithImgString.GetEmployeeWithImgString(manager);
+                        employeesGroup = employeeRepository.GetSubordinates(manager.EmployeeId, companyId);
 
-                        //If manager found look for its subordinates
-                        if (manager != null)
+                        //Loop through each employee to convert byte array to image string encoded if image exists
+                        foreach (var employee in employeesGroup)
                         {
-                            employeesGroup = employeeRepository.GetSubordinates(manager.EmployeeId, companyId);
+                            empWithImgString.Add(EmployeeWithImgString.GetEmployeeWithImgString(employee));
+
                         }
-                        logger.LogInformation("Rendering chart from top");
                     }
-                    else
-                    {
-                        employeesGroup = employeeRepository.GetSubordinates(empId, companyId);
-                        manager = employeeRepository.GetEmployeeInfo(empId, companyId);
-                    }
+                    logger.LogInformation("Rendering chart from top");
                 }
                 else
                 {
-                    ViewBag.CompanyName = "Select a company";
-                }
-                var employeesView = new ChartData(employeesGroup, manager);
+                    employeesGroup = employeeRepository.GetSubordinates(empId, companyId);
 
-                return View(employeesView);
+                    //Loop through each employee to convert byte array to image string encoded if image exists
+                    foreach (var employee in employeesGroup)
+                    {
+                        empWithImgString.Add(EmployeeWithImgString.GetEmployeeWithImgString(employee));
+
+                    }
+
+                    manager = employeeRepository.GetEmployeeInfo(empId, companyId);
+                    manWithImgString = EmployeeWithImgString.GetEmployeeWithImgString(manager);
+                }
+            }
+            else
+            {
+                ViewBag.CompanyName = "Select a company";
+            }
+            var employeesView = new ChartData(empWithImgString, manWithImgString);
+
+            return View(employeesView);
         }
 
         public IActionResult SearchEmployee(string empName)
@@ -102,7 +129,15 @@ namespace OrgChart.Controllers
                 //If more than one employee show List if only one show detail
                 if (employeesFound.Count() > 1)
                 {
-                    return View("List", employeesFound);
+                    var employeesWithImgString = new List<EmployeeWithImgString>();
+
+                    //Obtain image encoded string for each employee
+                    foreach (var employee in employeesFound)
+                    {
+                        employeesWithImgString.Add(EmployeeWithImgString.GetEmployeeWithImgString(employee));
+                    }
+
+                    return View("List", employeesWithImgString);
                 }
                 else
                 {
@@ -115,6 +150,6 @@ namespace OrgChart.Controllers
                 ViewBag.Message = "Sorry. No Employee was Found.";
                 return View("_ErrorMessage");
             }
-        }
+        }  
     }
 }

@@ -32,6 +32,7 @@ namespace OrgChart
 
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<IPictureRepository, PictureRepository>();
             services.AddControllersWithViews();
             services.AddRazorPages();
 
