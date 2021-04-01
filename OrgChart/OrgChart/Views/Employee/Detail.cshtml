@@ -1,4 +1,4 @@
-﻿@model Employee
+﻿@model EmployeeWithImgString
 
 @{
     ViewData["Title"] = "Employee Detail";
@@ -7,22 +7,30 @@
 <div class="row justify-content-center">
     <div class="col-3 ">
 
-        <h2 style="text-align: center">@Model.FirstName @Model.LastName</h2>
-        <img class="card-image" src="https://via.placeholder.com/150" />
+        <h2 style="text-align: center">@Model.Employee.FirstName @Model.Employee.LastName</h2>
+        @if (String.IsNullOrEmpty(Model.ImgDataString))
+        {
+            <img src="https://dummyimage.com/120" class="card-image" alt="employee picture" />
+        }
+        else
+        {
+            <img class="card-image" src="@Model.ImgDataString" alt="employee picture" />
+        }
+
         <ul class="list-group mt-2">
             <li class="list-group-item">
-                <span class="mt-3 font-weight-bold">Position: </span> <span>@Model.Position</span>
+                <span class="mt-3 font-weight-bold">Position: </span> <span>@Model.Employee.Position</span>
             </li>
             <li class="list-group-item">
-                <span class="font-weight-bold">Email: </span> <span>@Model.Email</span>
+                <span class="font-weight-bold">Email: </span> <span>@Model.Employee.Email</span>
             </li>
             <li class="list-group-item">
-                <span class="font-weight-bold">Phone: </span> <span>@Model.Phone</span>
+                <span class="font-weight-bold">Phone: </span> <span>@Model.Employee.Phone</span>
             </li>
             <li class="list-group-item">
-                <span class="font-weight-bold">Office: </span> <span>@Model.Office</span>
+                <span class="font-weight-bold">Office: </span> <span>@Model.Employee.Office</span>
             </li>
         </ul>
-        <a class="btn btn-link" asp-controller="Diagram" asp-action="Chart" asp-route-empId="@Model.EmployeeId">View Org Chart.</a>
+        <a class="btn btn-link" asp-controller="Diagram" asp-action="Chart" asp-route-empId="@Model.Employee.EmployeeId">View Org Chart.</a>
     </div>
 </div>

@@ -1,4 +1,4 @@
-﻿@model Employee
+﻿@model EmployeeWithFormPic
 
 @{
     ViewData["Title"] = "Edit Employee";
@@ -6,45 +6,50 @@
 
 <div class="row">
     <div class="col-4 offset-1">
-        <form method="post" asp-action="Edit">
-            <input type="hidden" asp-for="EmployeeId" />
-            <input type="hidden" asp-for="CompanyId" />
-            <input type="hidden" asp-for="ManagerId" />
+        <form method="post" enctype="multipart/form-data" asp-action="Edit">
+            <input type="hidden" asp-for="Employee.EmployeeId" />
+            <input type="hidden" asp-for="Employee.CompanyId" />
+            <input type="hidden" asp-for="Employee.ManagerId" />
+
             <div class="form-group">
-                <label asp-for="FirstName"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+                <label asp-for="Employee.FirstName"></label>
+                <input asp-for="Employee.FirstName" class="form-control" />
+                <span asp-validation-for="Employee.FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastName"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+                <label asp-for="Employee.LastName"></label>
+                <input asp-for="Employee.LastName" class="form-control" />
+                <span asp-validation-for="Employee.LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Position"></label>
-                <input asp-for="Position" class="form-control" />
-                <span asp-validation-for="Position" class="text-danger"></span>
+                <label asp-for="Employee.Position"></label>
+                <input asp-for="Employee.Position" class="form-control" />
+                <span asp-validation-for="Employee.Position" class="text-danger"></span>
 
             </div>
             <div class="form-group">
-                <label asp-for="Email"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <label asp-for="Employee.Email"></label>
+                <input asp-for="Employee.Email" class="form-control" />
+                <span asp-validation-for="Employee.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Phone"></label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
+                <label asp-for="Employee.Phone"></label>
+                <input asp-for="Employee.Phone" class="form-control" />
+                <span asp-validation-for="Employee.Phone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Office"></label>
-                <input asp-for="Office" class="form-control" />
-                <span asp-validation-for="Office" class="text-danger"></span>
+                <label asp-for="Employee.Office"></label>
+                <input asp-for="Employee.Office" class="form-control" />
+                <span asp-validation-for="Employee.Office" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FormPicture"></label>
+                <input asp-for="FormPicture" type="file" />
+                <span asp-validation-for="FormPicture"></span>
             </div>
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
     </div>
     <div class="col-3 align-self-center">
-        <img src="https://via.placeholder.com/600" class="card-image" alt="executive picture">
     </div>
 </div>

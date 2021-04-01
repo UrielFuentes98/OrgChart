@@ -1,4 +1,4 @@
-﻿@model Employee
+﻿@model EmployeeWithImgString
 
 @{
     ViewData["Title"] = "Delete preview";
@@ -10,7 +10,7 @@
         <a class="btn btn-danger mr-3"
            asp-controller="Employee"
            asp-action="DeleteConfirmation"
-           asp-route-empId="@Model.EmployeeId">
+           asp-route-empId="@Model.Employee.EmployeeId">
             Confirm Delete
         </a>
         <a class="btn btn-primary"
