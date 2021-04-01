@@ -27,4 +27,17 @@
     border-left: 1px solid grey;
 }
 
+html, body {
+    background-color: floralwhite;
+}
+
+
+footer {
+    background-color: white;
+}
+
+.card {
+    background-color: ghostwhite;
+}
+
 
