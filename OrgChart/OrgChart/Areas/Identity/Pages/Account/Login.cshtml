@@ -5,9 +5,10 @@
     ViewData["Title"] = "Log in";
 }
 
-<h1>@ViewData["Title"]</h1>
+
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-5 col-xl-4">
+        <h1>@ViewData["Title"]</h1>
         <section>
             <form id="account" method="post">
                 <hr />
@@ -34,8 +35,20 @@
             </form>
         </section>
     </div>
+    <div class="col-xl-6 col-md-6 offset-md-1 offset-xl-2">
+        <h1 class="text-center mt-md-3 mt-xl-5">OrgChart</h1>
+        <h3 class="text-center mt-md-3 mt-xl-5">Build easily the organizational chart of your company.</h3>
+        <h3 class="mt-md-3 mt-xl-5">With OrgChart you can:</h3>
+        <ul>
+            <li>Build easily a graphical org chart of a company.</li>
+            <li>Record important information of your employees: phone, email, office.</li>
+            <li>View all employees in a list or search for a specific one.</li>
+            <li>Create org charts of different companies.</li>
+        </ul>
+        <p></p>
+    </div>
 </div>
 
 @*@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}*@
+        <partial name="_ValidationScriptsPartial" />
+    }*@
